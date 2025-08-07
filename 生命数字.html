@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;生命数字测算系统（最终版）&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; padding: 20px }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container { background: #f5f5f5; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1) }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.input-group { margin: 15px 0 }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>label { display: inline-block; width: 120px; font-weight: bold }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input[type="date"], input[type="text"] { padding: 8px; width: 200px }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>table { width: 100%; border-collapse: collapse; margin: 20px 0 }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>th, td { border: 1px solid #ddd; padding: 12px; text-align: center }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>th { background: #4CAF50; color: white }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.highlight { background: #ffeb3b !important }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button { padding: 10px 25px; margin: 10px 5px; background: #2196F3;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>color: white; border: none; border-radius: 5px; cursor: pointer }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button:hover { background: #1976D2 }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.error { color: red; font-weight: bold; margin-top: 10px }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 style="color: #2c3e50; border-bottom: 2px solid #4CAF50; padding-bottom: 10px"&gt;生命数字测算系统&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;出生日期:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="date" id="birthdate" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="input-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;姓名:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="name" placeholder="请输入中文姓名" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="action-buttons"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="calculate()"&gt;开始测算&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="exportExcel()"&gt;下载Excel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="screenshot()"&gt;保存截图&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="result"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="error-message" class="error"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 修复版本的外部库加载 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.14.0/dist/index.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// ========== 核心计算函数 ==========</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function sumDigits(num) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>while (num &gt;= 10) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>num = num.toString().split('').reduce((a, b) =&gt; parseInt(a) + parseInt(b), 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return num;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function getFullSum(num) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let process = [num];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>while (num &gt;= 10) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>num = num.toString().split('').reduce((a, b) =&gt; parseInt(a) + parseInt(b), 0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>process.push(num);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return process.join('/');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function calculatePhases(m, d, y, lifePath) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const phase1End = 36 - lifePath;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>阶段: "第一阶段",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>年份: `0-${phase1End}`,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>高峰: sumDigits(m + d),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>挑战: sumDigits(Math.abs(m - d))</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>阶段: "第二阶段",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>年份: `${phase1End + 1}-${phase1End + 7}`,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>高峰: sumDigits(d + y),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>挑战: sumDigits(Math.abs(d - y))</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>阶段: "第三阶段",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>年份: `${phase1End + 8}-${phase1End + 15}`,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>高峰: sumDigits(sumDigits(m + d) + sumDigits(d + y)),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>挑战: sumDigits(Math.abs(sumDigits(m - d) - sumDigits(d - y)))</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>阶段: "第四阶段",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>年份: `${phase1End + 16}+`,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>高峰: sumDigits(m + y),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>挑战: sumDigits(Math.abs(m - y))</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function analyzeName(name) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 修复的拼音转换逻辑</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const pinyin = pinyinPro.pinyin(name, { toneType: 'none' }).replace(/\s+/g, '');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const numMap = { A:1, B:2, C:3, D:4, E:5, F:6, G:7, H:8, I:9, J:1, K:2, L:3, M:4, N:5, O:6, P:7, Q:8, R:9,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>S:1, T:2, U:3, V:4, W:5, X:6, Y:7, Z:8 };</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 表现数字计算</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const numbers = pinyin.toUpperCase().split('').map(c =&gt; numMap[c] || 0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const sumTotal = numbers.reduce((a, b) =&gt; a + b, 0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 表现数字 = getFullSum(sumTotal);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 内驱数字（a,e,i,o,u对应的数字）</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const vowels = pinyin.toUpperCase().split('').filter(c =&gt; ['A', 'E', 'I', 'O', 'U'].includes(c));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 内驱部分 = vowels.map(c =&gt; numMap[c] || 0).reduce((a, b) =&gt; a + b, 0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 内驱数字 = getFullSum(内驱部分);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 个特数字</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 个特部分 = Math.abs(sumTotal - 内驱部分);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 个特数字 = getFullSum(个特部分);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 身体、思维、情绪、直觉数字</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const countMap = { 4:0, 5:0, 1:0, 8:0, 2:0, 3:0, 6:0, 7:0, 9:0 };</p>
+<p class="p1"><span class="Apple-converted-space">                </span>numbers.forEach(n =&gt; { if (countMap[n] !== undefined) countMap[n]++ });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 身体数字 = countMap[4] + countMap[5];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 思维数字 = countMap[1] + countMap[8];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 情绪数字 = countMap[2] + countMap[3] + countMap[6];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 直觉数字 = countMap[7] + countMap[9];</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>全拼: pinyin,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>表现数字,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>内驱数字,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>个特数字,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>身体数字,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>思维数字,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>情绪数字,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>直觉数字</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>throw new Error("姓名转换失败，请检查输入是否为有效中文姓名！");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// ========== 界面交互函数 ==========</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function calculate() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const birthdate = document.getElementById('birthdate').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const name = document.getElementById('name').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const errorDiv = document.getElementById('error-message');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>errorDiv.textContent = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!birthdate) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>errorDiv.textContent = "错误：请选择出生日期！";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!name || !/^[\u4e00-\u9fa5]{2,4}$/.test(name)) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>errorDiv.textContent = "错误：姓名必须为2-4个中文字符！";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 核心计算</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const [y, m, d] = birthdate.split('-').map(Number);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const yearSum = sumDigits(y + m + d);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const lifePath = sumDigits(yearSum);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const nameData = analyzeName(name);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const phases = calculatePhases(sumDigits(m), sumDigits(d), sumDigits(y), lifePath);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const currentYear = new Date().getFullYear();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const yearDigitSum = sumDigits(currentYear.toString().split('').reduce((a, b) =&gt; parseInt(a) + parseInt(b), 0));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const 流年数字 = sumDigits(yearDigitSum + sumDigits(nameData.表现数字.split('/')[0]));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 构建结果表格</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const resultHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;基础信息&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;项目&lt;/th&gt;&lt;th&gt;数值&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;生命道路数字&lt;/td&gt;&lt;td&gt;${lifePath}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;制约数字&lt;/td&gt;&lt;td&gt;${sumDigits(nameData.表现数字.split('/')[0])}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;流年数字&lt;/td&gt;&lt;td&gt;${流年数字}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;姓名分析&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;类型&lt;/th&gt;&lt;th&gt;过程&lt;/th&gt;&lt;th&gt;结果&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;表现数字&lt;/td&gt;&lt;td&gt;${nameData.表现数字}&lt;/td&gt;&lt;td&gt;${sumDigits(nameData.表现数字.split('/').pop())}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;内驱数字&lt;/td&gt;&lt;td&gt;${nameData.内驱数字}&lt;/td&gt;&lt;td&gt;${sumDigits(nameData.内驱数字.split('/').pop())}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;个特数字&lt;/td&gt;&lt;td&gt;${nameData.个特数字}&lt;/td&gt;&lt;td&gt;${sumDigits(nameData.个特数字.split('/').pop())}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;身体数字&lt;/td&gt;&lt;td&gt;${nameData.身体数字}&lt;/td&gt;&lt;td&gt;${nameData.身体数字}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;思维数字&lt;/td&gt;&lt;td&gt;${nameData.思维数字}&lt;/td&gt;&lt;td&gt;${nameData.思维数字}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;情绪数字&lt;/td&gt;&lt;td&gt;${nameData.情绪数字}&lt;/td&gt;&lt;td&gt;${nameData.情绪数字}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;直觉数字&lt;/td&gt;&lt;td&gt;${nameData.直觉数字}&lt;/td&gt;&lt;td&gt;${nameData.直觉数字}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;人生阶段&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;阶段&lt;/th&gt;&lt;th&gt;年份&lt;/th&gt;&lt;th&gt;高峰数字&lt;/th&gt;&lt;th&gt;挑战数字&lt;/th&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>${phases.map(p =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;td&gt;${p.阶段}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;td&gt;${p.年份}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;td&gt;${p.高峰}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;td&gt;${p.挑战}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('result').innerHTML = resultHTML;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>highlightNumbers(流年数字);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>errorDiv.textContent = error.message;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function highlightNumbers(target) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('td').forEach(td =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const num = parseInt(td.textContent);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!isNaN(num) &amp;&amp; num === target) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>td.classList.add('highlight');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function exportExcel() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const table = document.querySelector('table');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!table) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>throw new Error("请先生成测算结果！");</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const wb = XLSX.utils.table_to_book(table);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>XLSX.writeFile(wb, '生命数字报告.xlsx');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('error-message').textContent = error.message;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function screenshot() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>html2canvas(document.querySelector('.container')).then(canvas =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>canvas.toBlob(blob =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const link = document.createElement('a');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>link.download = '生命数字报告.png';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>link.href = URL.createObjectURL(blob);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>link.click();</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('error-message').textContent = "截图失败，请重试！";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
